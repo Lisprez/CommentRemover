@@ -13,7 +13,8 @@ enum Pattern {
 
 void StateChange(std::ofstream& fout, Pattern& pattern, char& c, char& last)
 {
-	switch (pattern) {
+	switch (pattern) 
+	{
 		case DOUBLE_QUOTE:
 		{
 			fout << c;
@@ -62,6 +63,10 @@ void StateChange(std::ofstream& fout, Pattern& pattern, char& c, char& last)
 				{
 					pattern = SEGMENT_COMMENT;
 				}
+				else
+				{
+					fout << c;
+				}
 			}
 			else
 			{
@@ -85,7 +90,8 @@ int remove_comment(
 	auto ext_name = withCommentFilePath.substr(withCommentFilePath.find_last_of(".") + 1);
 
 	// 通过扩展名判断如果不是c/c++源文件，就直接copy到目标目录
-	if (ext_name != "h" && ext_name != "cpp" && ext_name != "c") {
+	if (ext_name != "h" && ext_name != "cpp" && ext_name != "c") 
+	{
 		CopyFile(withCommentFilePath.c_str(), withoutCommentFilePath.c_str(), TRUE);
 		return 0;
 	}
@@ -93,7 +99,8 @@ int remove_comment(
 	std::ifstream fin(withCommentFilePath);
 	std::ofstream fout(withoutCommentFilePath);
 
-	if (!fin) {
+	if (!fin) 
+	{
 		return -1;
 	}
 
@@ -101,7 +108,8 @@ int remove_comment(
 	char c;
 	char last = '\0';
 
-	while (fin.get(c)) {
+	while (fin.get(c)) 
+	{
 		StateChange(fout, init_pattern, c, last);
 	}
 
